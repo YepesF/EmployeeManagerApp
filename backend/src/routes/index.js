@@ -80,6 +80,7 @@ router.put(
   verifyToken,
   verifyRole(["admin"]),
   validateRequestId,
+  validateCreateRequest,
   updateRequest
 );
 router.delete(

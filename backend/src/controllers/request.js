@@ -151,9 +151,41 @@ export const getRequest = async (req, res) => {
 };
 
 export const updateRequest = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors
+        .array()
+        .map(({ type, msg, path }) => ({ type, msg, path })),
+    });
+  }
+
   const requestId = req.params.id;
-  // if (!request) return res.status(404).send("Request not found");
-  res.status(200).send({});
+  const { code, description, summary, employeeId } = req.body;
+  const employee_id = employeeId;
+
+  try {
+    const existingEmployee = await Employee.findOne({
+      where: { id: employee_id },
+    });
+
+    if (!existingEmployee)
+      return res.status(404).json({ message: "Empleado no encontrado." });
+
+    const request = await Request.findByPk(requestId);
+
+    if (!request)
+      return res.status(404).json({ message: "Solicitud no encontrada." });
+
+    await request.update({ code, description, summary, employee_id });
+
+    res.status(200).json(request);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error actualizando la solicitud, por favor intente nuevamente.",
+    });
+  }
 };
 
 export const deleteRequest = async (req, res) => {
