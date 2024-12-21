@@ -24,20 +24,9 @@ const Employee = sequelize.define(
     },
   },
   {
-    timestamps: false,
     freezeTableName: true,
     tableName: "employees",
   }
 );
-
-Employee.belongsTo(User, {
-  foreignKey: "user_id",
-  as: "user",
-});
-
-User.hasOne(Employee, {
-  foreignKey: "user_id",
-  as: "employee",
-});
 
 export default Employee;

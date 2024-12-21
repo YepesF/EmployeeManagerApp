@@ -23,20 +23,9 @@ const Request = sequelize.define(
     },
   },
   {
-    timestamps: false,
     freezeTableName: true,
     tableName: "requests",
   }
 );
-
-Request.belongsTo(Employee, {
-  foreignKey: "employee_id",
-  as: "employee",
-});
-
-Employee.hasMany(Request, {
-  foreignKey: "employee_id",
-  as: "requests",
-});
 
 export default Request;
