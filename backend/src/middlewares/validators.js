@@ -82,7 +82,33 @@ export const validateGetEmployees = [
 export const validateEmployeeId = [
   param("id")
     .notEmpty()
-    .withMessage("El ID de usuario es obligatorio.")
+    .withMessage("El ID de empleado es obligatorio.")
     .isInt({ min: 1 })
-    .withMessage("El ID de usuario debe ser un número entero."),
+    .withMessage("El ID de empleado debe ser un número entero."),
+];
+
+export const validateCreateRequest = [
+  body("code")
+    .trim()
+    .notEmpty()
+    .withMessage("El código es obligatorio.")
+    .isLength({ max: 50 })
+    .withMessage("El código no puede exceder los 50 caracteres."),
+  body("description")
+    .trim()
+    .notEmpty()
+    .withMessage("La descripción es obligatoria.")
+    .isLength({ max: 50 })
+    .withMessage("La descripción no puede exceder los 50 caracteres."),
+  body("summary")
+    .trim()
+    .notEmpty()
+    .withMessage("El resumen es obligatorio.")
+    .isLength({ max: 50 })
+    .withMessage("El resumen no puede exceder los 50 caracteres."),
+  body("employeeId")
+    .notEmpty()
+    .withMessage("El ID de empleado es obligatorio.")
+    .isInt({ min: 1 })
+    .withMessage("El ID de empleado debe ser un número entero."),
 ];
