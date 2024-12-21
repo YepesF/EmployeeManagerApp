@@ -25,8 +25,6 @@ const User = sequelize.define(
   {
     freezeTableName: true,
     tableName: "users",
-  },
-  {
     hooks: {
       beforeCreate: async (user) => {
         const salt = await bcrypt.genSalt(10);
