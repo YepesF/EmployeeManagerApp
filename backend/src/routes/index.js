@@ -21,7 +21,7 @@ import {
   updateUser,
 } from "../controllers/user.js";
 import { login, register } from "../controllers/auth.js";
-import { validateLogin, validateRegister } from "../utils/validators.js";
+import { validateLogin, validateRegister } from "../middlewares/validators.js";
 
 const router = express.Router();
 
