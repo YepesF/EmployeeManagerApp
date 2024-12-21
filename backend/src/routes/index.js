@@ -13,13 +13,6 @@ import {
   getRequests,
   updateRequest,
 } from "../controllers/request.js";
-import {
-  createUser,
-  deleteUser,
-  getUser,
-  getUsers,
-  updateUser,
-} from "../controllers/user.js";
 import { login, register } from "../controllers/auth.js";
 import { validateLogin, validateRegister } from "../middlewares/validators.js";
 import { verifyRole, verifyToken } from "../middlewares/authToken.js";
@@ -68,12 +61,5 @@ router.delete(
   verifyRole(["admin"]),
   deleteRequest
 );
-
-// Users routes
-router.post("/users", verifyToken, verifyRole(["admin"]), createUser);
-router.get("/users", verifyToken, verifyRole(["admin"]), getUsers);
-router.get("/users/:id", verifyToken, verifyRole(["admin"]), getUser);
-router.put("/users/:id", verifyToken, verifyRole(["admin"]), updateUser);
-router.delete("/users/:id", verifyToken, verifyRole(["admin"]), deleteUser);
 
 export default router;
