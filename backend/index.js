@@ -9,7 +9,7 @@ const server = http.createServer(app);
 app.use(express.static("public"));
 app.use(bodyParser.json());
 
-sequelize.sync({ force: false }).then(() => {
+sequelize.sync({ alter: false }).then(() => {
   console.log("DB sync");
 });
 
