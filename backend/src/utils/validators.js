@@ -17,12 +17,6 @@ export const validateRegister = [
     .withMessage("El salario es obligatorio.")
     .isFloat({ min: 0 })
     .withMessage("El salario debe ser un número positivo."),
-  body("username")
-    .trim()
-    .notEmpty()
-    .withMessage("El nombre de usuario es obligatorio.")
-    .isLength({ max: 50 })
-    .withMessage("El nombre de usuario no puede exceder los 50 caracteres."),
   body("email")
     .trim()
     .notEmpty()

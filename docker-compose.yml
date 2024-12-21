@@ -12,6 +12,15 @@ services:
     volumes:
       - db-data:/var/lib/postgresql/data
     restart: unless-stopped
+  
+  frontend:
+    build: ./frontend
+    ports:
+      - "3000:3000"
+    volumes:
+      - ./frontend:/app
+      - /app/node_modules
+    restart: unless-stopped
 
   backend:
     build: ./backend
@@ -24,15 +33,6 @@ services:
       - database
     volumes:
       - ./backend:/app
-      - /app/node_modules
-    restart: unless-stopped
-  
-  frontend:
-    build: ./frontend
-    ports:
-      - "3000:3000"
-    volumes:
-      - ./frontend:/app
       - /app/node_modules
     restart: unless-stopped
 

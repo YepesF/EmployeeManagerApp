@@ -1,9 +1,10 @@
 CREATE TABLE Users (
     id SERIAL PRIMARY KEY,
-    username VARCHAR(50) NOT NULL UNIQUE,
     email VARCHAR(100) NOT NULL UNIQUE,
     password VARCHAR(255) NOT NULL,
-    role VARCHAR(20) NOT NULL CHECK (role IN ('admin', 'employee'))
+    role VARCHAR(20) NOT NULL CHECK (role IN ('admin', 'employee')),
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP
 );
 
 CREATE TABLE Employees (
@@ -12,6 +13,8 @@ CREATE TABLE Employees (
     name VARCHAR(50) NOT NULL,
     salary NUMERIC(10, 2) NOT NULL,
     user_id INT UNIQUE,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
@@ -21,16 +24,18 @@ CREATE TABLE Requests (
     description VARCHAR(50) NOT NULL,
     summary VARCHAR(50) NOT NULL,
     employee_id INT NOT NULL,
+    "createdAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
+    "updatedAt" TIMESTAMP DEFAULT CURRENT_TIMESTAMP,
     CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES Employees(id)
 );
 
-INSERT INTO Users (username, email, password, role) VALUES
-('admin', 'admin@example.com', 'hashed_password', 'admin'),
-('jdoe', 'jdoe@example.com', 'hashed_password', 'employee');
+INSERT INTO Users (email, password, role) VALUES
+('jdoe@example.com', 'hashed_password', 'admin'),
+('jsmith@example.com', 'hashed_password', 'employee');
 
 INSERT INTO Employees (hire_date, name, salary, user_id) VALUES
-('2020-01-15', 'John Doe', 50000.00, 2),
-('2021-07-22', 'Jane Smith', 60000.00, NULL),
+('2020-01-15', 'John Doe', 50000.00, 1),
+('2021-07-22', 'Jane Smith', 60000.00, 2),
 ('2019-03-11', 'Carlos López', 55000.00, NULL),
 ('2020-06-05', 'Ana García', 58000.00, NULL),
 ('2021-09-19', 'Luis Martínez', 52000.00, NULL),
