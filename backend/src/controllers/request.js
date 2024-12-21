@@ -189,7 +189,32 @@ export const updateRequest = async (req, res) => {
 };
 
 export const deleteRequest = async (req, res) => {
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors
+        .array()
+        .map(({ type, msg, path }) => ({ type, msg, path })),
+    });
+  }
+
   const requestId = req.params.id;
-  // if (!request) return res.status(404).send("Request not found");
-  res.status(204).send({});
+
+  try {
+    const request = await Request.findByPk(requestId);
+
+    if (!request)
+      return res.status(404).json({ message: "Solicitud no encontrada." });
+
+    await request.destroy();
+
+    res.status(200).json({
+      message: "Solicitud eliminada exitosamente.",
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error eliminando la solicitud, por favor intente nuevamente.",
+    });
+  }
 };
