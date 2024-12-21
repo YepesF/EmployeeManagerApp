@@ -22,6 +22,7 @@ import {
 } from "../controllers/user.js";
 import { login, register } from "../controllers/auth.js";
 import { validateLogin, validateRegister } from "../middlewares/validators.js";
+import { verifyRole, verifyToken } from "../middlewares/authToken.js";
 
 const router = express.Router();
 
@@ -30,24 +31,49 @@ router.post("/auth/register", validateRegister, register);
 router.post("/auth/login", validateLogin, login);
 
 // Employees routes
-router.post("/employees", createEmployee);
-router.get("/employees", getEmployees);
-router.get("/employees/:id", getEmployee);
-router.put("/employees/:id", updateEmployee);
-router.delete("/employees/:id", deleteEmployee);
+router.post("/employees", verifyToken, verifyRole(["admin"]), createEmployee);
+router.get("/employees", verifyToken, verifyRole(["admin"]), getEmployees);
+router.get("/employees/:id", verifyToken, verifyRole(["admin"]), getEmployee);
+router.put(
+  "/employees/:id",
+  verifyToken,
+  verifyRole(["admin"]),
+  updateEmployee
+);
+router.delete(
+  "/employees/:id",
+  verifyToken,
+  verifyRole(["admin"]),
+  deleteEmployee
+);
 
 // Requests routes
-router.post("/requests", createRequest);
-router.get("/requests", getRequests);
-router.get("/requests/:id", getRequest);
-router.put("/requests/:id", updateRequest);
-router.delete("/requests/:id", deleteRequest);
+router.post("/requests", verifyToken, verifyRole(["admin"]), createRequest);
+router.get(
+  "/requests",
+  verifyToken,
+  verifyRole(["admin", "employee"]),
+  getRequests
+);
+router.get(
+  "/requests/:id",
+  verifyToken,
+  verifyRole(["admin", "employee"]),
+  getRequest
+);
+router.put("/requests/:id", verifyToken, verifyRole(["admin"]), updateRequest);
+router.delete(
+  "/requests/:id",
+  verifyToken,
+  verifyRole(["admin"]),
+  deleteRequest
+);
 
 // Users routes
-router.post("/users", createUser);
-router.get("/users", getUsers);
-router.get("/users/:id", getUser);
-router.put("/users/:id", updateUser);
-router.delete("/users/:id", deleteUser);
+router.post("/users", verifyToken, verifyRole(["admin"]), createUser);
+router.get("/users", verifyToken, verifyRole(["admin"]), getUsers);
+router.get("/users/:id", verifyToken, verifyRole(["admin"]), getUser);
+router.put("/users/:id", verifyToken, verifyRole(["admin"]), updateUser);
+router.delete("/users/:id", verifyToken, verifyRole(["admin"]), deleteUser);
 
 export default router;

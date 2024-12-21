@@ -10,7 +10,7 @@ export const generateToken = (payload) => {
 export const verifyToken = (req, res, next) => {
   const token = req.headers.authorization?.split(" ")[1];
   if (!token) {
-    return res.status(401).json({ message: "No token provided" });
+    return res.status(401).json({ message: "No token provided." });
   }
 
   try {
@@ -18,6 +18,16 @@ export const verifyToken = (req, res, next) => {
     req.user = decoded;
     next();
   } catch (error) {
-    res.status(401).json({ message: "Invalid or expired token" });
+    res.status(401).json({ message: "Invalid or expired token." });
   }
+};
+
+export const verifyRole = (roles) => (req, res, next) => {
+  const userRole = req.user?.role;
+  console.log(userRole);
+
+  if (!roles.includes(userRole)) {
+    return res.status(403).json({ message: "Accesso denegado." });
+  }
+  next();
 };
