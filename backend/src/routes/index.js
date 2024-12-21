@@ -14,7 +14,11 @@ import {
   updateRequest,
 } from "../controllers/request.js";
 import { login, register } from "../controllers/auth.js";
-import { validateLogin, validateRegister } from "../middlewares/validators.js";
+import {
+  validateCreateEmployee,
+  validateLogin,
+  validateRegister,
+} from "../middlewares/validators.js";
 import { verifyRole, verifyToken } from "../middlewares/authToken.js";
 
 const router = express.Router();
@@ -24,7 +28,13 @@ router.post("/auth/register", validateRegister, register);
 router.post("/auth/login", validateLogin, login);
 
 // Employees routes
-router.post("/employees", verifyToken, verifyRole(["admin"]), createEmployee);
+router.post(
+  "/employees",
+  verifyToken,
+  verifyRole(["admin"]),
+  validateCreateEmployee,
+  createEmployee
+);
 router.get("/employees", verifyToken, verifyRole(["admin"]), getEmployees);
 router.get("/employees/:id", verifyToken, verifyRole(["admin"]), getEmployee);
 router.put(
