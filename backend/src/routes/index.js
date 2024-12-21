@@ -20,13 +20,14 @@ import {
   getUsers,
   updateUser,
 } from "../controllers/user.js";
-import { register } from "../controllers/auth.js";
-import { validateRegister } from "../utils/validators.js";
+import { login, register } from "../controllers/auth.js";
+import { validateLogin, validateRegister } from "../utils/validators.js";
 
 const router = express.Router();
 
 // Auth. routes
 router.post("/auth/register", validateRegister, register);
+router.post("/auth/login", validateLogin, login);
 
 // Employees routes
 router.post("/employees", createEmployee);
