@@ -127,3 +127,11 @@ export const validateGetRequests = [
       'El campo de ordenación debe ser "code", "description", "summary" o "employee_id".'
     ),
 ];
+
+export const validateRequestId = [
+  param("id")
+    .notEmpty()
+    .withMessage("El ID de solicitud es obligatorio.")
+    .isInt({ min: 1 })
+    .withMessage("El ID de solicitud debe ser un número entero."),
+];

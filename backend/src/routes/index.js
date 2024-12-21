@@ -20,6 +20,7 @@ import {
   validateGetRequests,
   validateLogin,
   validateRegister,
+  validateRequestId,
 } from "../middlewares/validators.js";
 import { verifyRole, verifyToken } from "../middlewares/authToken.js";
 
@@ -71,6 +72,7 @@ router.get(
   "/requests/:id",
   verifyToken,
   verifyRole(["admin", "employee"]),
+  validateRequestId,
   getRequest
 );
 router.put("/requests/:id", verifyToken, verifyRole(["admin"]), updateRequest);
