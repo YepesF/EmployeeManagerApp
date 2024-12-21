@@ -80,21 +80,11 @@ export const getEmployees = async (req, res, next) => {
 
     const { count, rows } = await Employee.findAndCountAll(options);
     const parsedData = rows.map(
-      ({
+      ({ id, hire_date, name, salary, user, createdAt, updatedAt }) => ({
         id,
-        hire_date,
+        hireDate: hire_date,
         name,
         salary,
-        user_id,
-        user,
-        createdAt,
-        updatedAt,
-      }) => ({
-        id,
-        hire_date,
-        name,
-        salary,
-        user_id,
         email: user.email,
         role: user.role,
         createdAt,
@@ -118,19 +108,42 @@ export const getEmployees = async (req, res, next) => {
 };
 
 export const getEmployee = async (req, res, next) => {
-  const employeeId = req.params.id;
-  // if (!employee) return res.status(404).send("Employee not found");
-  res.status(200).send({});
-};
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors
+        .array()
+        .map(({ type, msg, path }) => ({ type, msg, path })),
+    });
+  }
 
-export const updateEmployee = async (req, res, next) => {
   const employeeId = req.params.id;
-  // if (!employee) return res.status(404).send("Employee not found");
-  res.status(200).send({});
-};
 
-export const deleteEmployee = async (req, res, next) => {
-  const employeeId = req.params.id;
-  // if (!employee) return res.status(404).send("Employee not found");
-  res.status(204).send({});
+  try {
+    const employee = await Employee.findOne({
+      where: { id: employeeId },
+      include: {
+        model: User,
+        as: "user",
+        attributes: ["email", "role"],
+      },
+    });
+
+    if (!employee) return res.status(404).send("Empleado no encontrado.");
+
+    const parsedEmployee = {
+      id: employee.id,
+      hireDate: employee.hire_date,
+      name: employee.name,
+      salary: employee.salary,
+      email: employee?.user?.email || null,
+      role: employee?.user?.role || null,
+    };
+    res.status(200).json(parsedEmployee);
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error obteniendo el empleado, por favor intente nuevamente.",
+    });
+  }
 };

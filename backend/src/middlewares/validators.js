@@ -82,7 +82,7 @@ export const validateGetEmployees = [
 export const validateEmployeeId = [
   param("id")
     .notEmpty()
-    .withMessage("El salario es obligatorio.")
+    .withMessage("El ID de usuario es obligatorio.")
     .isInt({ min: 1 })
     .withMessage("El ID de usuario debe ser un número entero."),
 ];

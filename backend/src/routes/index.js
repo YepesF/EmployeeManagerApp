@@ -1,10 +1,8 @@
 import express from "express";
 import {
   createEmployee,
-  deleteEmployee,
   getEmployee,
   getEmployees,
-  updateEmployee,
 } from "../controllers/employee.js";
 import {
   createRequest,
@@ -16,6 +14,7 @@ import {
 import { login, register } from "../controllers/auth.js";
 import {
   validateCreateEmployee,
+  validateEmployeeId,
   validateGetEmployees,
   validateLogin,
   validateRegister,
@@ -39,22 +38,16 @@ router.post(
 router.get(
   "/employees",
   verifyToken,
-  verifyRole(["admin", "employee"]),
+  verifyRole(["admin"]),
   validateGetEmployees,
   getEmployees
 );
-router.get("/employees/:id", verifyToken, verifyRole(["admin"]), getEmployee);
-router.put(
+router.get(
   "/employees/:id",
   verifyToken,
   verifyRole(["admin"]),
-  updateEmployee
-);
-router.delete(
-  "/employees/:id",
-  verifyToken,
-  verifyRole(["admin"]),
-  deleteEmployee
+  validateEmployeeId,
+  getEmployee
 );
 
 // Requests routes
