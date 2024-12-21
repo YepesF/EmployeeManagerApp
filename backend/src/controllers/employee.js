@@ -129,7 +129,8 @@ export const getEmployee = async (req, res, next) => {
       },
     });
 
-    if (!employee) return res.status(404).send("Empleado no encontrado.");
+    if (!employee)
+      return res.status(404).json({ message: "Empleado no encontrado." });
 
     const parsedEmployee = {
       id: employee.id,
