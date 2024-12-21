@@ -1,7 +1,7 @@
 import { validationResult } from "express-validator";
 import { Employee, User } from "../models/index.js";
 
-export const createEmployee = async (req, res, next) => {
+export const createEmployee = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -52,7 +52,7 @@ export const createEmployee = async (req, res, next) => {
   }
 };
 
-export const getEmployees = async (req, res, next) => {
+export const getEmployees = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -107,7 +107,7 @@ export const getEmployees = async (req, res, next) => {
   }
 };
 
-export const getEmployee = async (req, res, next) => {
+export const getEmployee = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
