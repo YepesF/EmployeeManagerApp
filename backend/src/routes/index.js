@@ -16,6 +16,7 @@ import {
 import { login, register } from "../controllers/auth.js";
 import {
   validateCreateEmployee,
+  validateGetEmployees,
   validateLogin,
   validateRegister,
 } from "../middlewares/validators.js";
@@ -35,7 +36,13 @@ router.post(
   validateCreateEmployee,
   createEmployee
 );
-router.get("/employees", verifyToken, verifyRole(["admin"]), getEmployees);
+router.get(
+  "/employees",
+  verifyToken,
+  verifyRole(["admin", "employee"]),
+  validateGetEmployees,
+  getEmployees
+);
 router.get("/employees/:id", verifyToken, verifyRole(["admin"]), getEmployee);
 router.put(
   "/employees/:id",

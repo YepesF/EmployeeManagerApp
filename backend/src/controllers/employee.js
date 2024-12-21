@@ -1,4 +1,5 @@
 import { validationResult } from "express-validator";
+import { Employee, User } from "../models/index.js";
 
 export const createEmployee = async (req, res, next) => {
   const errors = validationResult(req);
@@ -18,7 +19,6 @@ export const createEmployee = async (req, res, next) => {
     if (existingEmail) {
       return res.status(400).json({
         message: "El correo electrónico ya está en uso.",
-        employee: {},
       });
     }
 
@@ -38,26 +38,83 @@ export const createEmployee = async (req, res, next) => {
     });
 
     res.status(201).json({
-      message: "Registro exitoso.",
-      employee: {
-        name: newEmployee.name,
-        email: newUser.email,
-        hireDate: newEmployee.hire_date,
-        salary: newEmployee.salary,
-        role: newUser.role,
-      },
+      name: newEmployee.name,
+      email: newUser.email,
+      hireDate: newEmployee.hire_date,
+      salary: newEmployee.salary,
+      role: newUser.role,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       message: "Registro fallido, por favor intente nuevamente.",
-      employee: {},
     });
   }
 };
 
 export const getEmployees = async (req, res, next) => {
-  res.status(200).send({});
+  const errors = validationResult(req);
+  if (!errors.isEmpty()) {
+    return res.status(400).json({
+      errors: errors
+        .array()
+        .map(({ type, msg, path }) => ({ type, msg, path })),
+    });
+  }
+
+  const { page = 1, limit = 10, sortBy = "id", order = "asc" } = req.query;
+
+  try {
+    const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);
+    const options = {
+      limit: parseInt(limit, 10),
+      offset,
+      order: [[sortBy, order.toUpperCase()]],
+      include: {
+        model: User,
+        as: "user",
+        attributes: ["email", "role"],
+        where: {},
+      },
+    };
+
+    const { count, rows } = await Employee.findAndCountAll(options);
+    const parsedData = rows.map(
+      ({
+        id,
+        hire_date,
+        name,
+        salary,
+        user_id,
+        user,
+        createdAt,
+        updatedAt,
+      }) => ({
+        id,
+        hire_date,
+        name,
+        salary,
+        user_id,
+        email: user.email,
+        role: user.role,
+        createdAt,
+        updatedAt,
+      })
+    );
+
+    res.status(200).json({
+      data: parsedData,
+      total: count,
+      limit: options.limit,
+      page: parseInt(page, 10),
+      pages: Math.ceil(count / options.limit),
+    });
+  } catch (error) {
+    console.error(error);
+    res.status(500).json({
+      message: "Error obteniendo los empleados, por favor intente nuevamente.",
+    });
+  }
 };
 
 export const getEmployee = async (req, res, next) => {

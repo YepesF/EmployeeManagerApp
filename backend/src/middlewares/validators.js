@@ -1,4 +1,4 @@
-import { body } from "express-validator";
+import { body, param, query } from "express-validator";
 
 export const validateLogin = [
   body("email")
@@ -42,7 +42,7 @@ export const validateRegister = [
     .withMessage("El salario debe ser un número positivo."),
 ];
 
-export const createEmployee = [
+export const validateCreateEmployee = [
   ...validateRegister,
   body("role")
     .trim()
@@ -51,5 +51,38 @@ export const createEmployee = [
     .isString()
     .withMessage("Rol debe ser de tipo texto.")
     .isIn(["admin", "employee"])
-    .withMessage("Rol debería ser 'admin' o 'employee'."),
+    .withMessage('Rol debe ser "admin" o "employee".'),
+];
+
+export const validateGetEmployees = [
+  query("page")
+    .trim()
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("La página debe ser un número entero mayor o igual a 1."),
+  query("limit")
+    .trim()
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("El límite debe ser un número entero mayor o igual a 1."),
+  query("sortBy")
+    .trim()
+    .optional()
+    .isIn(["hire_date", "name", "salary"])
+    .withMessage(
+      'El campo de ordenación debe ser "hire_date", "name" o "salary".'
+    ),
+  query("order")
+    .trim()
+    .optional()
+    .isIn(["asc", "desc"])
+    .withMessage('El orden debe ser "asc" o "desc".'),
+];
+
+export const validateEmployeeId = [
+  param("id")
+    .notEmpty()
+    .withMessage("El salario es obligatorio.")
+    .isInt({ min: 1 })
+    .withMessage("El ID de usuario debe ser un número entero."),
 ];

@@ -24,8 +24,6 @@ export const verifyToken = (req, res, next) => {
 
 export const verifyRole = (roles) => (req, res, next) => {
   const userRole = req.user?.role;
-  console.log(userRole);
-
   if (!roles.includes(userRole)) {
     return res.status(403).json({ message: "Accesso denegado." });
   }
