@@ -1,5 +1,23 @@
 import { body, param, query } from "express-validator";
 
+const defaultQueryParams = [
+  query("page")
+    .trim()
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("La página debe ser un número entero mayor o igual a 1."),
+  query("limit")
+    .trim()
+    .optional()
+    .isInt({ min: 1 })
+    .withMessage("El límite debe ser un número entero mayor o igual a 1."),
+  query("order")
+    .trim()
+    .optional()
+    .isIn(["asc", "desc"])
+    .withMessage('El orden debe ser "asc" o "desc".'),
+];
+
 export const validateLogin = [
   body("email")
     .trim()
@@ -55,16 +73,7 @@ export const validateCreateEmployee = [
 ];
 
 export const validateGetEmployees = [
-  query("page")
-    .trim()
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage("La página debe ser un número entero mayor o igual a 1."),
-  query("limit")
-    .trim()
-    .optional()
-    .isInt({ min: 1 })
-    .withMessage("El límite debe ser un número entero mayor o igual a 1."),
+  ...defaultQueryParams,
   query("sortBy")
     .trim()
     .optional()
@@ -72,11 +81,6 @@ export const validateGetEmployees = [
     .withMessage(
       'El campo de ordenación debe ser "hire_date", "name" o "salary".'
     ),
-  query("order")
-    .trim()
-    .optional()
-    .isIn(["asc", "desc"])
-    .withMessage('El orden debe ser "asc" o "desc".'),
 ];
 
 export const validateEmployeeId = [
@@ -111,4 +115,15 @@ export const validateCreateRequest = [
     .withMessage("El ID de empleado es obligatorio.")
     .isInt({ min: 1 })
     .withMessage("El ID de empleado debe ser un número entero."),
+];
+
+export const validateGetRequests = [
+  ...defaultQueryParams,
+  query("sortBy")
+    .trim()
+    .optional()
+    .isIn(["code", "description", "summary", "employee_id"])
+    .withMessage(
+      'El campo de ordenación debe ser "code", "description", "summary" o "employee_id".'
+    ),
 ];

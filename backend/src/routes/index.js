@@ -40,6 +40,7 @@ router.get(
   "/employees",
   verifyToken,
   verifyRole(["admin"]),
+  validateCreateRequest,
   validateGetEmployees,
   getEmployees
 );
