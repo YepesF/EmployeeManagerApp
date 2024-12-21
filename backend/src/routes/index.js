@@ -14,6 +14,7 @@ import {
 import { login, register } from "../controllers/auth.js";
 import {
   validateCreateEmployee,
+  validateCreateRequest,
   validateEmployeeId,
   validateGetEmployees,
   validateLogin,
@@ -51,7 +52,13 @@ router.get(
 );
 
 // Requests routes
-router.post("/requests", verifyToken, verifyRole(["admin"]), createRequest);
+router.post(
+  "/requests",
+  verifyToken,
+  verifyRole(["admin"]),
+  validateCreateRequest,
+  createRequest
+);
 router.get(
   "/requests",
   verifyToken,
