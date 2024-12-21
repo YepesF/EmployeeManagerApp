@@ -2,7 +2,7 @@ import { validationResult } from "express-validator";
 import { Employee, User } from "../models/index.js";
 import { generateToken } from "../middlewares/authToken.js";
 
-export const register = async (req, res, next) => {
+export const register = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
@@ -21,7 +21,6 @@ export const register = async (req, res, next) => {
     if (existingEmail) {
       return res.status(400).json({
         message: "El correo electrónico ya está en uso.",
-        employee: {},
       });
     }
 
@@ -41,25 +40,21 @@ export const register = async (req, res, next) => {
     });
 
     res.status(201).json({
-      message: "Registro exitoso.",
-      employee: {
-        name: newEmployee.name,
-        email: newUser.email,
-        hireDate: newEmployee.hire_date,
-        salary: newEmployee.salary,
-        role: newUser.role,
-      },
+      name: newEmployee.name,
+      email: newUser.email,
+      hireDate: newEmployee.hire_date,
+      salary: newEmployee.salary,
+      role: newUser.role,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       message: "Registro fallido, por favor intente nuevamente.",
-      employee: {},
     });
   }
 };
 
-export const login = async (req, res, next) => {
+export const login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(200).json({
@@ -76,7 +71,6 @@ export const login = async (req, res, next) => {
     if (!user) {
       return res.status(400).json({
         message: "Empleado no existe.",
-        employee: {},
       });
     }
 
@@ -85,27 +79,22 @@ export const login = async (req, res, next) => {
     if (!isPasswordValid) {
       return res.status(400).json({
         message: "Contraseña incorrecta.",
-        employee: {},
       });
     }
 
-    const token = generateToken({ id: user.id, role: user.role });
     const employee = await Employee.findOne({ where: { user_id: user.id } });
+    const token = generateToken({ id: employee.id, role: user.role });
 
     res.status(201).json({
-      message: "Inico de sesión exitoso.",
-      employee: {
-        name: employee.name,
-        email: user.email,
-        role: user.role,
-        token,
-      },
+      name: employee.name,
+      email: user.email,
+      role: user.role,
+      token,
     });
   } catch (error) {
     console.error(error);
     res.status(500).json({
       message: "Inico de sesión fallido, por favor intente nuevamente.",
-      employee: {},
     });
   }
 };
