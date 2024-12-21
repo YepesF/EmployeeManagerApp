@@ -37,3 +37,25 @@ export const validateRegister = [
     .matches(/[0-9]/)
     .withMessage("La contraseña debe contener al menos un número."),
 ];
+
+export const validateLogin = [
+  body("email")
+    .trim()
+    .notEmpty()
+    .withMessage("El correo electrónico es obligatorio.")
+    .isEmail()
+    .withMessage("El correo debe ser válido.")
+    .normalizeEmail(),
+  body("password")
+    .trim()
+    .notEmpty()
+    .withMessage("La contraseña es obligatoria.")
+    .isLength({ min: 8 })
+    .withMessage("La contraseña debe tener al menos 8 caracteres.")
+    .matches(/[a-z]/)
+    .withMessage("La contraseña debe contener al menos una letra minúscula.")
+    .matches(/[A-Z]/)
+    .withMessage("La contraseña debe contener al menos una letra mayúscula.")
+    .matches(/[0-9]/)
+    .withMessage("La contraseña debe contener al menos un número."),
+];
