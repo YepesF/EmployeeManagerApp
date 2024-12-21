@@ -75,11 +75,18 @@ router.get(
   validateRequestId,
   getRequest
 );
-router.put("/requests/:id", verifyToken, verifyRole(["admin"]), updateRequest);
+router.put(
+  "/requests/:id",
+  verifyToken,
+  verifyRole(["admin"]),
+  validateRequestId,
+  updateRequest
+);
 router.delete(
   "/requests/:id",
   verifyToken,
   verifyRole(["admin"]),
+  validateRequestId,
   deleteRequest
 );
 
