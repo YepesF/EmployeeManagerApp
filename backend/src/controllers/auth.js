@@ -1,6 +1,5 @@
 import { validationResult } from "express-validator";
-import Employee from "../models/Employee.js";
-import User from "../models/User.js";
+import { Employee, User } from "../models/index.js";
 
 export const register = async (req, res, next) => {
   const errors = validationResult(req);
@@ -8,19 +7,11 @@ export const register = async (req, res, next) => {
     return res.status(200).json({ errors: errors.array() });
   }
 
-  const { name, hireDate, salary, username, email, password } = req.body;
+  const { name, hireDate, salary, email, password } = req.body;
   const role = "employee"; // User with role 'admin' can change to role 'admin', only.
   const hire_date = hireDate;
 
   try {
-    const existingUsername = await User.findOne({ where: { username } });
-    if (existingUsername) {
-      return res.status(400).json({
-        message: "El nombre de usuario ya está en uso.",
-        employee: {},
-      });
-    }
-
     const existingEmail = await User.findOne({ where: { email } });
     if (existingEmail) {
       return res.status(400).json({
@@ -30,7 +21,6 @@ export const register = async (req, res, next) => {
     }
 
     const newUser = await User.create({
-      username,
       email,
       password,
       role,
@@ -50,7 +40,6 @@ export const register = async (req, res, next) => {
       employee: {
         id: newEmployee.id,
         name: newEmployee.name,
-        username: newUser.username,
         email: newUser.email,
         hireDate: newEmployee.hire_date,
         salary: newEmployee.salary,
