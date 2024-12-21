@@ -10,7 +10,9 @@ CREATE TABLE Employees (
     id SERIAL PRIMARY KEY,
     hire_date DATE NOT NULL,
     name VARCHAR(50) NOT NULL,
-    salary NUMERIC(10, 2) NOT NULL
+    salary NUMERIC(10, 2) NOT NULL,
+    user_id INT UNIQUE,
+    CONSTRAINT fk_user FOREIGN KEY (user_id) REFERENCES Users(id)
 );
 
 CREATE TABLE Requests (
@@ -22,17 +24,21 @@ CREATE TABLE Requests (
     CONSTRAINT fk_employee FOREIGN KEY (employee_id) REFERENCES Employees(id)
 );
 
-INSERT INTO Employees (hire_date, name, salary) VALUES
-('2020-01-15', 'John Doe', 50000.00),
-('2021-07-22', 'Jane Smith', 60000.00),
-('2019-03-11', 'Carlos López', 55000.00),
-('2020-06-05', 'Ana García', 58000.00),
-('2021-09-19', 'Luis Martínez', 52000.00),
-('2022-01-03', 'María Fernández', 62000.00),
-('2018-11-23', 'José Pérez', 51000.00),
-('2019-07-10', 'Laura Sánchez', 49000.00),
-('2020-12-13', 'Pedro Gómez', 47000.00),
-('2021-05-25', 'Elena Ruiz', 53000.00);
+INSERT INTO Users (username, email, password, role) VALUES
+('admin', 'admin@example.com', 'hashed_password', 'admin'),
+('jdoe', 'jdoe@example.com', 'hashed_password', 'employee');
+
+INSERT INTO Employees (hire_date, name, salary, user_id) VALUES
+('2020-01-15', 'John Doe', 50000.00, 2),
+('2021-07-22', 'Jane Smith', 60000.00, NULL),
+('2019-03-11', 'Carlos López', 55000.00, NULL),
+('2020-06-05', 'Ana García', 58000.00, NULL),
+('2021-09-19', 'Luis Martínez', 52000.00, NULL),
+('2022-01-03', 'María Fernández', 62000.00, NULL),
+('2018-11-23', 'José Pérez', 51000.00, NULL),
+('2019-07-10', 'Laura Sánchez', 49000.00, NULL),
+('2020-12-13', 'Pedro Gómez', 47000.00, NULL),
+('2021-05-25', 'Elena Ruiz', 53000.00, NULL);
 
 INSERT INTO Requests (code, description, summary, employee_id) VALUES
 ('REQ-001', 'Solicitud de equipo', 'Compra de laptop nueva', 1),
