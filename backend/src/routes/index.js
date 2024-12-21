@@ -17,6 +17,7 @@ import {
   validateCreateRequest,
   validateEmployeeId,
   validateGetEmployees,
+  validateGetRequests,
   validateLogin,
   validateRegister,
 } from "../middlewares/validators.js";
@@ -40,7 +41,6 @@ router.get(
   "/employees",
   verifyToken,
   verifyRole(["admin"]),
-  validateCreateRequest,
   validateGetEmployees,
   getEmployees
 );
@@ -64,6 +64,7 @@ router.get(
   "/requests",
   verifyToken,
   verifyRole(["admin", "employee"]),
+  validateGetRequests,
   getRequests
 );
 router.get(
