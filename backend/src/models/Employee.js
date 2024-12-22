@@ -13,7 +13,7 @@ const Employee = sequelize.define(
       allowNull: false,
     },
     salary: {
-      type: DataTypes.DECIMAL(10, 2),
+      type: DataTypes.DECIMAL(),
       allowNull: false,
     },
     user_id: {
