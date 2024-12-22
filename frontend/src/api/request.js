@@ -8,7 +8,7 @@ export async function getRequests(
   token,
   page = 1,
   sortBy = 'id',
-  order = 'asc'
+  order = 'desc'
 ) {
   headers.Authorization = `Bearer ${token}`;
   return makeRequest(
@@ -16,4 +16,16 @@ export async function getRequests(
     'GET',
     headers
   );
+}
+
+export async function fetchRequest(
+  token,
+  code,
+  description,
+  summary,
+  employeeId
+) {
+  headers.Authorization = `Bearer ${token}`;
+  const body = { code, description, summary, employeeId };
+  return makeRequest(`/requests`, 'POST', headers, body);
 }

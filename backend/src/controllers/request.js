@@ -49,7 +49,7 @@ export const getRequests = async (req, res) => {
     });
   }
   const { id, role } = req.user;
-  const { page = 1, limit = 10, sortBy = "id", order = "asc" } = req.query;
+  const { page = 1, limit = 10, sortBy = "id", order = "desc" } = req.query;
 
   try {
     const offset = (parseInt(page, 10) - 1) * parseInt(limit, 10);

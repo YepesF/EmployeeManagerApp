@@ -10,13 +10,21 @@ function RequestsTable() {
   const role = state.user?.role || 'employee';
 
   const handlePrevPage = async () => {
-    const payload = await getRequests(token, page - 1);
-    dispatch({ type: 'UPDATE_REQUESTS', payload });
+    try {
+      const payload = await getRequests(token, page - 1);
+      dispatch({ type: 'UPDATE_REQUESTS', payload });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   const handleNextPage = async () => {
-    const payload = await getRequests(token, page + 1);
-    dispatch({ type: 'UPDATE_REQUESTS', payload });
+    try {
+      const payload = await getRequests(token, page + 1);
+      dispatch({ type: 'UPDATE_REQUESTS', payload });
+    } catch (error) {
+      console.error(error);
+    }
   };
 
   // const [status, setStatus] = useState({ status: '', message: '' });
