@@ -13,7 +13,7 @@ const initialState = JSON.parse(localStorage.getItem('authState')) || {
   isAuthenticated: false,
   user: null,
   token: null,
-  employees: defaultAPIResponse,
+  employees: { ...defaultAPIResponse, allEmployees: [] },
   requests: defaultAPIResponse,
 };
 
@@ -25,7 +25,10 @@ const authReducer = (state, action) => {
         isAuthenticated: true,
         user: action.payload.user,
         token: action.payload.token,
-        employees: action.payload.employees || defaultAPIResponse,
+        employees: action.payload.employees || {
+          ...defaultAPIResponse,
+          allEmployees: [],
+        },
         requests: action.payload.requests || defaultAPIResponse,
       };
     case 'LOGOUT':
@@ -33,7 +36,7 @@ const authReducer = (state, action) => {
         isAuthenticated: false,
         user: null,
         token: null,
-        employees: defaultAPIResponse,
+        employees: { ...defaultAPIResponse, allEmployees: [] },
         requests: defaultAPIResponse,
       };
     case 'UPDATE_REQUESTS':

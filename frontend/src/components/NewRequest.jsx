@@ -114,7 +114,7 @@ function NewRequest() {
               }}
             >
               <option disabled>Seleccione un empleado</option>
-              {employees.data.map(({ id, name }) => (
+              {employees.allEmployees.map(({ id, name }) => (
                 <option key={name} value={id} name="employeeId">
                   {name}
                 </option>

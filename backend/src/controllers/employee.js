@@ -88,8 +88,15 @@ export const getEmployees = async (req, res) => {
       })
     );
 
+    const employeesListData = await Employee.findAll();
+    const allEmployees = employeesListData.map(({ id, name }) => ({
+      id,
+      name,
+    }));
+
     res.status(200).json({
       data: parsedData,
+      allEmployees,
       total: count,
       limit: options.limit,
       page: parseInt(page, 10),
