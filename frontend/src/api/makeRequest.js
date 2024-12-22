@@ -6,14 +6,12 @@ if (!url) {
   throw new Error('La variable de entorno VITE_BACKEND_URL no está definida.');
 }
 
-export async function makeRequest(endpoint, method, body) {
+export async function makeRequest(endpoint, method, headers, body) {
   try {
     const response = await axios({
       method,
       url: `${url}${endpoint}`,
-      headers: {
-        'Content-Type': 'application/json',
-      },
+      headers,
       data: body,
     });
 
