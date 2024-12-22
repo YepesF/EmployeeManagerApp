@@ -36,6 +36,16 @@ const authReducer = (state, action) => {
         employees: defaultAPIResponse,
         requests: defaultAPIResponse,
       };
+    case 'UPDATE_REQUESTS':
+      return {
+        ...state,
+        requests: action.payload,
+      };
+    case 'UPDATE_EMPLOYEES':
+      return {
+        ...state,
+        employees: action.payload,
+      };
     default:
       return state;
   }
