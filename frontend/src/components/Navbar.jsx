@@ -1,3 +1,4 @@
+import { Link } from 'react-router';
 import { useAuth } from '../context/AuthContext';
 
 function Navbar() {
@@ -26,28 +27,32 @@ function Navbar() {
             tabIndex={0}
             className="menu dropdown-content menu-sm z-[1] mt-3 w-52 rounded-box bg-base-100 p-2 shadow"
           >
+            <li>
+              <Link to="/dashboard">Solicitudes</Link>
+            </li>
             {state?.user?.role === 'admin' && (
               <li>
-                <a>Empleados</a>
+                <Link to="/dashboard/empyoee">Empleados</Link>
               </li>
             )}
-            <li>
-              <a>Solicitudes</a>
-            </li>
           </ul>
         </div>
-        <a className="btn btn-ghost text-xl">EmployeeManagerApp</a>
+        <Link className="text-xl">EmployeeManagerApp</Link>
       </div>
       <div className="navbar-center hidden lg:flex">
-        <ul className="menu menu-horizontal px-1">
+        <ul className="flex gap-4 px-2">
+          <li>
+            <Link to="/dashboard" className="link-hover link">
+              Solicitudes
+            </Link>
+          </li>
           {state?.user?.role === 'admin' && (
             <li>
-              <a>Empleados</a>
+              <Link to="/dashboard/empyoee" className="link-hover link">
+                Empleados
+              </Link>
             </li>
           )}
-          <li>
-            <a>Solicitudes</a>
-          </li>
         </ul>
       </div>
     </div>
