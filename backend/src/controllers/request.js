@@ -5,9 +5,7 @@ export const createRequest = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
@@ -47,9 +45,7 @@ export const getRequests = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
   const { id, role } = req.user;
@@ -112,9 +108,7 @@ export const getRequest = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
@@ -154,9 +148,7 @@ export const updateRequest = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
@@ -192,9 +184,7 @@ export const deleteRequest = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
