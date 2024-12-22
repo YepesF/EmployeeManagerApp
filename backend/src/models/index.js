@@ -10,14 +10,30 @@ Employee.hasMany(Request, { foreignKey: "employee_id", as: "requests" });
 Request.belongsTo(Employee, { foreignKey: "employee_id", as: "employee" });
 
 (async () => {
-  try {
-    await sequelize.authenticate();
-    console.log("DB sync");
+  let retries = 0;
 
-    await sequelize.sync({ alter: false });
-  } catch (error) {
-    console.error("Error conectando a la base de datos:", error);
-  }
+  const connectToDatabase = async () => {
+    try {
+      await sequelize.authenticate();
+      console.log("DB connected successfully");
+      await sequelize.sync({ alter: false });
+    } catch (error) {
+      retries += 1;
+      if (retries <= 10) {
+        console.error(
+          `Error connecting to the database. Retrying (${retries}/${10})...`
+        );
+        setTimeout(connectToDatabase, 4000);
+      } else {
+        console.error(
+          "Max retries reached. Could not connect to the database:",
+          error
+        );
+      }
+    }
+  };
+
+  await connectToDatabase();
 })();
 
 export { sequelize, User, Employee, Request };
