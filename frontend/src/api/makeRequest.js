@@ -1,5 +1,8 @@
 import axios from 'axios';
+import { getGlobalAuthState, globalLogout } from '../context/AuthContext';
+import { isTokenExpired } from '../utils/auth';
 
+const { token } = getGlobalAuthState();
 const url = import.meta.env.VITE_BACKEND_URL;
 
 if (!url) {
@@ -8,6 +11,11 @@ if (!url) {
 
 export async function makeRequest(endpoint, method, headers, body = {}) {
   try {
+    if (token && isTokenExpired(token)) {
+      globalLogout();
+      throw new axios.Cancel('Token expirado. Redirigiendo al login.');
+    }
+
     const response = await axios({
       method,
       url: `${url}${endpoint}`,

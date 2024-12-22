@@ -56,8 +56,14 @@ const authReducer = (state, action) => {
 
 const AuthContext = createContext(initialState);
 
+let globalDispatch = null;
+let globalGetState = null;
+
 const AuthProvider = ({ children }) => {
   const [state, dispatch] = useReducer(authReducer, initialState);
+
+  globalDispatch = dispatch;
+  globalGetState = () => state;
 
   useEffect(() => {
     localStorage.setItem('authState', JSON.stringify(state));
@@ -69,10 +75,17 @@ const AuthProvider = ({ children }) => {
     </AuthContext.Provider>
   );
 };
+
+const getGlobalAuthState = () => globalGetState();
+const globalLogout = () => {
+  globalDispatch({ type: 'LOGOUT' });
+  localStorage.removeItem('authState');
+};
+
 const useAuth = () => useContext(AuthContext);
 
 AuthProvider.propTypes = {
   children: PropTypes.node.isRequired,
 };
 
-export { AuthProvider, useAuth };
+export { AuthProvider, useAuth, getGlobalAuthState, globalLogout };
