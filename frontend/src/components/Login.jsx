@@ -4,6 +4,7 @@ import { useAuth } from '../context/AuthContext';
 import { login } from '../api/auth';
 import { useEffect, useState } from 'react';
 import Alert from './Alert';
+import { getRequests } from '../api/requests';
 
 function Login() {
   const { dispatch } = useAuth();
@@ -28,7 +29,14 @@ function Login() {
     e.preventDefault();
 
     try {
-      const payload = await login(userData.email, userData.password);
+      const { user, token } = await login(userData.email, userData.password);
+      const role = user.role;
+
+      let requests, employees;
+      if (role === 'admin') {
+        requests = await getRequests(token);
+      }
+      const payload = { user, token, requests };
       dispatch({ type: 'LOGIN', payload });
       navigate('/dashboard');
     } catch (err) {
