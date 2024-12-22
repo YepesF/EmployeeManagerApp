@@ -1,12 +1,20 @@
 import { createContext, useContext, useEffect, useReducer } from 'react';
 import PropTypes from 'prop-types';
 
+const defaultAPIResponse = {
+  data: [],
+  total: 0,
+  limit: 10,
+  page: 1,
+  pages: 1,
+};
+
 const initialState = JSON.parse(localStorage.getItem('authState')) || {
   isAuthenticated: false,
   user: null,
   token: null,
-  employees: [],
-  requests: [],
+  employees: defaultAPIResponse,
+  requests: defaultAPIResponse,
 };
 
 const authReducer = (state, action) => {
@@ -17,16 +25,16 @@ const authReducer = (state, action) => {
         isAuthenticated: true,
         user: action.payload.user,
         token: action.payload.token,
-        employees: action.payload.employees || [],
-        requests: action.payload.requests || [],
+        employees: action.payload.employees || defaultAPIResponse,
+        requests: action.payload.requests || defaultAPIResponse,
       };
     case 'LOGOUT':
       return {
         isAuthenticated: false,
         user: null,
         token: null,
-        employees: [],
-        requests: [],
+        employees: defaultAPIResponse,
+        requests: defaultAPIResponse,
       };
     default:
       return state;

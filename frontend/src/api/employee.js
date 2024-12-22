@@ -4,7 +4,7 @@ const headers = {
   'Content-Type': 'application/json',
 };
 
-export async function getRequests(
+export async function getEmployees(
   token,
   page = 1,
   sortBy = 'id',
@@ -12,9 +12,8 @@ export async function getRequests(
 ) {
   headers.Authorization = `Bearer ${token}`;
   return makeRequest(
-    `/requests?page=${page}&sortBy=${sortBy}&order=${order}`,
+    `/employees?page=${page}&sortBy=${sortBy}&order=${order}`,
     'GET',
-    headers,
-    {}
+    headers
   );
 }
