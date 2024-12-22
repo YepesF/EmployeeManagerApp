@@ -6,9 +6,7 @@ export const register = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
@@ -58,9 +56,7 @@ export const login = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(200).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
@@ -86,9 +82,7 @@ export const login = async (req, res) => {
     const token = generateToken({ id: employee.id, role: user.role });
 
     res.status(201).json({
-      name: employee.name,
-      email: user.email,
-      role: user.role,
+      user: { name: employee.name, email: user.email, role: user.role },
       token,
     });
   } catch (error) {
