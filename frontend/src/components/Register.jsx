@@ -4,6 +4,8 @@ import { useEffect, useState } from 'react';
 import { login, register } from '../api/auth';
 import Alert from './Alert';
 import { useAuth } from '../context/AuthContext';
+import { getRequests } from '../api/request';
+import { getEmployees } from '../api/employee';
 
 function Register() {
   const { dispatch } = useAuth();
@@ -39,7 +41,16 @@ function Register() {
       );
       setStatus({ status: 'success', message: 'Registro exitoso.' });
 
-      const payload = await login(userData.email, userData.password);
+      const { user, token } = await login(userData.email, userData.password);
+      const requests = await getRequests(token);
+      const role = user.role;
+
+      let employees;
+      if (role === 'admin') {
+        employees = await getEmployees(token);
+      }
+
+      const payload = { user, token, requests, employees };
       dispatch({ type: 'LOGIN', payload });
       navigate('/dashboard');
     } catch (err) {

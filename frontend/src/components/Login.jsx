@@ -4,7 +4,8 @@ import { useAuth } from '../context/AuthContext';
 import { login } from '../api/auth';
 import { useEffect, useState } from 'react';
 import Alert from './Alert';
-import { getRequests } from '../api/requests';
+import { getRequests } from '../api/request';
+import { getEmployees } from '../api/employee';
 
 function Login() {
   const { dispatch } = useAuth();
@@ -30,13 +31,15 @@ function Login() {
 
     try {
       const { user, token } = await login(userData.email, userData.password);
+      const requests = await getRequests(token);
       const role = user.role;
 
-      let requests, employees;
+      let employees;
       if (role === 'admin') {
-        requests = await getRequests(token);
+        employees = await getEmployees(token);
       }
-      const payload = { user, token, requests };
+
+      const payload = { user, token, requests, employees };
       dispatch({ type: 'LOGIN', payload });
       navigate('/dashboard');
     } catch (err) {
