@@ -122,9 +122,9 @@ export const validateGetRequests = [
   query("sortBy")
     .trim()
     .optional()
-    .isIn(["code", "description", "summary", "employee_id"])
+    .isIn(["id", "code", "description", "summary"])
     .withMessage(
-      'El campo de ordenación debe ser "code", "description", "summary" o "employee_id".'
+      'El campo de ordenación debe ser "id", "code", "description" o "summary".'
     ),
 ];
 
