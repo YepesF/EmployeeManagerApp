@@ -1,12 +1,14 @@
-import { useState } from 'react';
+import { useEffect, useState } from 'react';
+import PropTypes from 'prop-types';
 import { useAuth } from '../context/AuthContext';
-import { fetchRequest, getRequests } from '../api/request';
+import { getRequests, updateRequest } from '../api/request';
 
-function NewRequest() {
+function EditRequest({ request }) {
   const { state, dispatch } = useAuth();
   const { employees, requests } = state;
 
   const [requestData, setRequestData] = useState({
+    id: '',
     code: '',
     description: '',
     summary: '',
@@ -23,8 +25,9 @@ function NewRequest() {
   const handleSubmit = async (e) => {
     e.preventDefault();
     try {
-      await fetchRequest(
+      await updateRequest(
         state.token,
+        requestData.id,
         requestData.code,
         requestData.description,
         requestData.summary,
@@ -35,26 +38,39 @@ function NewRequest() {
         dispatch({ type: 'UPDATE_REQUESTS', payload });
       }
       setRequestData({
+        id: '',
         code: '',
         description: '',
         summary: '',
         employeeId: '',
       });
-      document.getElementById('new_request').close();
+      document.getElementById('edit_request').close();
     } catch (error) {
       console.error(error);
     }
   };
 
+  useEffect(() => {
+    setRequestData({
+      id: request?.id,
+      code: request?.code,
+      description: request?.description,
+      summary: request?.summary,
+      employeeId: employees.allEmployees.find(
+        (employee) => employee.name === request?.employee
+      )?.id,
+    });
+  }, [request, employees.allEmployees]);
+
   return (
-    <dialog id="new_request" className="modal">
+    <dialog id="edit_request" className="modal">
       <div className="modal-box">
         <form method="dialog">
           <button className="btn btn-circle btn-ghost btn-sm absolute right-2 top-2">
             ✕
           </button>
         </form>
-        <h3 className="text-xl font-bold">Crear Solicitud</h3>
+        <h3 className="text-xl font-bold">Editar Solicitud</h3>
         <form className="card-body" onSubmit={handleSubmit}>
           <div className="form-control">
             <label className="label">
@@ -114,7 +130,7 @@ function NewRequest() {
             >
               <option disabled>Seleccione un empleado</option>
               {employees.allEmployees.map(({ id, name }) => (
-                <option key={name + id} value={id} name="employeeId">
+                <option key={name + id} value={id} name="employee">
                   {name}
                 </option>
               ))}
@@ -131,5 +147,8 @@ function NewRequest() {
     </dialog>
   );
 }
+EditRequest.propTypes = {
+  request: PropTypes.object.isRequired,
+};
 
-export default NewRequest;
+export default EditRequest;

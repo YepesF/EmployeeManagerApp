@@ -27,5 +27,18 @@ export async function fetchRequest(
 ) {
   headers.Authorization = `Bearer ${token}`;
   const body = { code, description, summary, employeeId };
-  return makeRequest(`/requests`, 'POST', headers, body);
+  return makeRequest('/requests', 'POST', headers, body);
+}
+
+export async function updateRequest(
+  token,
+  id,
+  code,
+  description,
+  summary,
+  employeeId
+) {
+  headers.Authorization = `Bearer ${token}`;
+  const body = { code, description, summary, employeeId };
+  return makeRequest(`/requests/${id}`, 'PUT', headers, body);
 }
