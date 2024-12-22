@@ -77,9 +77,9 @@ export const validateGetEmployees = [
   query("sortBy")
     .trim()
     .optional()
-    .isIn(["hire_date", "name", "salary"])
+    .isIn(["id", "hire_date", "name", "salary"])
     .withMessage(
-      'El campo de ordenación debe ser "hire_date", "name" o "salary".'
+      'El campo de ordenación debe ser "id", "hire_date", "name" o "salary".'
     ),
 ];
 

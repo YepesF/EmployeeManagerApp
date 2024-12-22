@@ -5,9 +5,7 @@ export const createEmployee = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
@@ -56,9 +54,7 @@ export const getEmployees = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
@@ -111,9 +107,7 @@ export const getEmployee = async (req, res) => {
   const errors = validationResult(req);
   if (!errors.isEmpty()) {
     return res.status(400).json({
-      errors: errors
-        .array()
-        .map(({ type, msg, path }) => ({ type, msg, path })),
+      message: errors.array()[0].msg,
     });
   }
 
