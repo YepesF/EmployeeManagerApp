@@ -42,3 +42,8 @@ export async function updateRequest(
   const body = { code, description, summary, employeeId };
   return makeRequest(`/requests/${id}`, 'PUT', headers, body);
 }
+
+export async function deleteRequest(token, id) {
+  headers.Authorization = `Bearer ${token}`;
+  return makeRequest(`/requests/${id}`, 'DELETE', headers);
+}

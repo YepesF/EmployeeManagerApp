@@ -1,8 +1,9 @@
 // import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
-import { getRequests } from '../api/request';
+import { deleteRequest, getRequests } from '../api/request';
 import EditRequest from './EditRequest';
 import { useState } from 'react';
+import Swal from 'sweetalert2';
 
 function RequestsTable() {
   const { state, dispatch } = useAuth();
@@ -34,6 +35,41 @@ function RequestsTable() {
   const showModal = (requestData) => {
     setCurrentRequest(requestData);
     document.getElementById('edit_request').showModal();
+  };
+
+  const handleDelete = async (requestId) => {
+    Swal.fire({
+      title: '¿Estás seguro?',
+      text: '¡No podrás revertir esto!',
+      icon: 'warning',
+      showCancelButton: true,
+      confirmButtonColor: '#3085d6',
+      cancelButtonColor: '#d33',
+      confirmButtonText: '¡Si, borrarlo!',
+    }).then((result) => {
+      if (result.isConfirmed) {
+        deleteRequest(token, requestId)
+          .then(() => {
+            if (state.requests.page === 1) {
+              getRequests(state.token).then((payload) => {
+                dispatch({ type: 'UPDATE_REQUESTS', payload });
+              });
+            }
+            Swal.fire({
+              title: '¡Borrado!',
+              text: 'El registro ha sido eliminado.',
+              icon: 'success',
+            });
+          })
+          .catch(() => {
+            Swal.fire({
+              title: 'Error',
+              text: 'No se pudo eliminar el registro, intente de nuevo.',
+              icon: 'error',
+            });
+          });
+      }
+    });
   };
 
   // const [status, setStatus] = useState({ status: '', message: '' });
@@ -80,6 +116,7 @@ function RequestsTable() {
                     viewBox="0 0 24 24"
                     fill="currentColor"
                     className="size-5 cursor-pointer hover:text-primary"
+                    onClick={() => handleDelete(request.id)}
                   >
                     <path
                       fillRule="evenodd"
