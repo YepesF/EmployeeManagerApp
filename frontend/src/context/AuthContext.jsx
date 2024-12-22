@@ -5,6 +5,8 @@ const initialState = JSON.parse(localStorage.getItem('authState')) || {
   isAuthenticated: false,
   user: null,
   token: null,
+  employees: [],
+  requests: [],
 };
 
 const authReducer = (state, action) => {
@@ -15,12 +17,16 @@ const authReducer = (state, action) => {
         isAuthenticated: true,
         user: action.payload.user,
         token: action.payload.token,
+        employees: action.payload.employees || [],
+        requests: action.payload.requests || [],
       };
     case 'LOGOUT':
       return {
         isAuthenticated: false,
         user: null,
         token: null,
+        employees: [],
+        requests: [],
       };
     default:
       return state;
