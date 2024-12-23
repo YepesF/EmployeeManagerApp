@@ -75,7 +75,7 @@ function RequestsTable() {
   // const [status, setStatus] = useState({ status: '', message: '' });
   // const [showAlert, setShowAlert] = useState(false);
   return (
-    <div className="overflow-x-auto">
+    <div className="flex min-h-[60rem] flex-col justify-between overflow-x-auto">
       <EditRequest request={currentRequest} />
       <table className="table table-zebra">
         <thead>

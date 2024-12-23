@@ -20,7 +20,15 @@ function Dashboard() {
             </button>
           )}
         </div>
-        <RequestsTable />
+        {state.requests?.data.length === 0 ? (
+          <div className="flex min-h-[60rem] items-center justify-center overflow-x-auto">
+            <h3 className="text-start text-3xl font-semibold">
+              No hay solicitudes disponibles para mostrar en este momento.
+            </h3>
+          </div>
+        ) : (
+          <RequestsTable />
+        )}
       </div>
     </PageLayout>
   );
