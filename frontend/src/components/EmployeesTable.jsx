@@ -74,9 +74,9 @@ function EmployeesTable() {
   // const [status, setStatus] = useState({ status: '', message: '' });
   // const [showAlert, setShowAlert] = useState(false);
   return (
-    <div className="overflow-x-auto">
+    <div className="flex min-h-[35rem] flex-col justify-between overflow-x-auto">
       <EditEmployee employee={currentEmployee} />
-      <table className="table table-zebra">
+      <table className="table table-zebra table-xs 2xl:table-md">
         <thead>
           <tr>
             <th></th>

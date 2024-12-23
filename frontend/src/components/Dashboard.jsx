@@ -11,7 +11,7 @@ function Dashboard() {
   return (
     <PageLayout>
       <NewRequest />
-      <div className="flex min-h-screen w-full flex-col gap-10 px-28 pt-24">
+      <div className="flex min-h-screen w-full flex-col gap-10 px-4 pt-24 2xl:px-28">
         <div className="flex w-full justify-between">
           <h1 className="text-start text-3xl font-semibold">Solicitudes</h1>
           {state.user?.role === 'admin' && (
