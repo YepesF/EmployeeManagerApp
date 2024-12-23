@@ -35,7 +35,7 @@ Request.belongsTo(Employee, {
       await sequelize.sync({ alter: false });
     } catch (error) {
       retries += 1;
-      if (retries <= 10) {
+      if (retries <= 20) {
         console.error(
           `Error connecting to the database. Retrying (${retries}/${10})...`
         );
