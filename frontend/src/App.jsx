@@ -40,7 +40,11 @@ function App() {
           <Route
             path="/dashboard/employees"
             element={
-              state.isAuthenticated ? <Employees /> : <Navigate to="/" />
+              state.isAuthenticated && state.user?.role === 'admin' ? (
+                <Employees />
+              ) : (
+                <Navigate to="/" />
+              )
             }
           />
           <Route path="*" element={<NotFound />} />
