@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { useState } from 'react';
 import Swal from 'sweetalert2';
@@ -18,7 +17,10 @@ function EmployeesTable() {
       const payload = await getEmployees(token, page - 1);
       dispatch({ type: 'UPDATE_EMPLOYEES', payload });
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 
@@ -27,7 +29,10 @@ function EmployeesTable() {
       const payload = await getEmployees(token, page + 1);
       dispatch({ type: 'UPDATE_EMPLOYEES', payload });
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 
@@ -71,8 +76,6 @@ function EmployeesTable() {
     });
   };
 
-  // const [status, setStatus] = useState({ status: '', message: '' });
-  // const [showAlert, setShowAlert] = useState(false);
   return (
     <div className="flex min-h-[35rem] flex-col justify-between overflow-x-auto">
       <EditEmployee employee={currentEmployee} />

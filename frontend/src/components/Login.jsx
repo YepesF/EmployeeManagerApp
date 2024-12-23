@@ -2,8 +2,7 @@ import { Link, useNavigate } from 'react-router';
 import PageLayout from './PageLayout';
 import { useAuth } from '../context/AuthContext';
 import { login } from '../api/auth';
-import { useEffect, useState } from 'react';
-import Alert from './Alert';
+import { useState } from 'react';
 import { getRequests } from '../api/request';
 import { getEmployees } from '../api/employee';
 
@@ -15,9 +14,6 @@ function Login() {
     email: '',
     password: '',
   });
-
-  const [status, setStatus] = useState({ status: '', message: '' });
-  const [showAlert, setShowAlert] = useState(false);
 
   const handleChange = (e) => {
     setUserData({
@@ -41,24 +37,21 @@ function Login() {
 
       const payload = { user, token, requests, employees };
       dispatch({ type: 'LOGIN', payload });
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'success', message: 'Bienvenido' },
+      });
       navigate('/dashboard');
-    } catch (err) {
-      setStatus({ status: 'error', message: err.message });
+    } catch (error) {
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 
-  useEffect(() => {
-    setShowAlert(true);
-    const timer = setTimeout(() => {
-      setShowAlert(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [status]);
-
   return (
     <PageLayout>
-      {showAlert && <Alert status={status.status} message={status.message} />}
       <div
         className="hero min-h-screen"
         style={{

@@ -50,9 +50,16 @@ function EditEmployee({ employee }) {
         password: '',
         role: '',
       });
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'success', message: 'Empleado actualizado.' },
+      });
       document.getElementById('edit_employee').close();
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 

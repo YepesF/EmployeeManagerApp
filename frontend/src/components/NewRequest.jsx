@@ -40,9 +40,16 @@ function NewRequest() {
         summary: '',
         employeeId: '',
       });
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'success', message: 'Solicitud creada.' },
+      });
       document.getElementById('new_request').close();
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 

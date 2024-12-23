@@ -1,4 +1,3 @@
-// import { useState } from 'react';
 import { useAuth } from '../context/AuthContext';
 import { deleteRequest, getRequests } from '../api/request';
 import EditRequest from './EditRequest';
@@ -19,7 +18,10 @@ function RequestsTable() {
       const payload = await getRequests(token, page - 1);
       dispatch({ type: 'UPDATE_REQUESTS', payload });
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 
@@ -28,7 +30,10 @@ function RequestsTable() {
       const payload = await getRequests(token, page + 1);
       dispatch({ type: 'UPDATE_REQUESTS', payload });
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 
@@ -72,8 +77,6 @@ function RequestsTable() {
     });
   };
 
-  // const [status, setStatus] = useState({ status: '', message: '' });
-  // const [showAlert, setShowAlert] = useState(false);
   return (
     <div className="flex min-h-[35rem] flex-col justify-between overflow-x-auto">
       <EditRequest request={currentRequest} />

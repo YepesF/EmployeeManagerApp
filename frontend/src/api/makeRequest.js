@@ -26,12 +26,17 @@ export async function makeRequest(endpoint, method, headers, body = {}) {
     return response.data;
   } catch (error) {
     if (error.response) {
-      const errorMessage = error.response.data?.message || 'Algo salió mal';
+      const errorMessage =
+        error.response.data?.message || 'Algo salió mal, intenta nuevamente.';
       throw new Error(errorMessage);
     } else if (error.request) {
-      throw new Error('No se recibió respuesta del servidor.');
+      throw new Error(
+        'No se recibió respuesta del servidor, intenta nuevamente..'
+      );
     } else {
-      throw new Error(error.message || 'Error desconocido');
+      throw new Error(
+        error.message || 'Error desconocido, intenta nuevamente.'
+      );
     }
   }
 }

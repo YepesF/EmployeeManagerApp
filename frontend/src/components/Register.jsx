@@ -1,8 +1,7 @@
 import { Link, useNavigate } from 'react-router';
 import PageLayout from './PageLayout';
-import { useEffect, useState } from 'react';
+import { useState } from 'react';
 import { login, register } from '../api/auth';
-import Alert from './Alert';
 import { useAuth } from '../context/AuthContext';
 import { getRequests } from '../api/request';
 import { getEmployees } from '../api/employee';
@@ -17,9 +16,6 @@ function Register() {
     email: '',
     password: '',
   });
-
-  const [status, setStatus] = useState({ status: '', message: '' });
-  const [showAlert, setShowAlert] = useState(false);
 
   const handleChange = (e) => {
     setUserData({
@@ -39,7 +35,10 @@ function Register() {
         userData.email,
         userData.password
       );
-      setStatus({ status: 'success', message: 'Registro exitoso.' });
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'success', message: 'Registro exitoso.' },
+      });
 
       const { user, token } = await login(userData.email, userData.password);
       const requests = await getRequests(token);
@@ -53,23 +52,16 @@ function Register() {
       const payload = { user, token, requests, employees };
       dispatch({ type: 'LOGIN', payload });
       navigate('/dashboard');
-    } catch (err) {
-      setStatus({ status: 'error', message: err.message });
+    } catch (error) {
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 
-  useEffect(() => {
-    setShowAlert(true);
-    const timer = setTimeout(() => {
-      setShowAlert(false);
-    }, 2000);
-
-    return () => clearTimeout(timer);
-  }, [status]);
-
   return (
     <PageLayout>
-      {showAlert && <Alert status={status.status} message={status.message} />}
       <div
         className="hero min-h-screen"
         style={{

@@ -1,7 +1,8 @@
-import React, { Suspense } from 'react';
+import React, { Suspense, useEffect, useState } from 'react';
 import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router';
 import Loading from './components/Loading';
 import { useAuth } from './context/AuthContext';
+import Alert from './components/Alert';
 
 const Login = React.lazy(() => import('./components/Login'));
 const Register = React.lazy(() => import('./components/Register'));
@@ -10,9 +11,28 @@ const Employees = React.lazy(() => import('./components/Employees'));
 const NotFound = React.lazy(() => import('./components/NotFound'));
 
 function App() {
-  const { state } = useAuth();
+  const { state, dispatch } = useAuth();
+  const [alert, setAlert] = useState({ status: '', message: '' });
+
+  const closeAlert = () => {
+    setAlert({ status: '', message: '' });
+    dispatch({
+      type: 'SET_ALERT',
+      payload: { status: '', message: '' },
+    });
+  };
+
+  useEffect(() => {
+    setAlert(state.alert);
+  }, [state.alert]);
+
   return (
     <Router>
+      <Alert
+        status={alert?.status}
+        message={alert?.message}
+        onClose={closeAlert}
+      />
       <Suspense fallback={<Loading />}>
         <Routes>
           <Route

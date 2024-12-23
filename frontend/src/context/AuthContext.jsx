@@ -15,6 +15,7 @@ const initialState = JSON.parse(localStorage.getItem('authState')) || {
   token: null,
   employees: { ...defaultAPIResponse, allEmployees: [] },
   requests: defaultAPIResponse,
+  alert: { status: '', message: '' },
 };
 
 const authReducer = (state, action) => {
@@ -38,6 +39,7 @@ const authReducer = (state, action) => {
         token: null,
         employees: { ...defaultAPIResponse, allEmployees: [] },
         requests: defaultAPIResponse,
+        alert: { status: '', message: '' },
       };
     case 'UPDATE_REQUESTS':
       return {
@@ -48,6 +50,11 @@ const authReducer = (state, action) => {
       return {
         ...state,
         employees: action.payload,
+      };
+    case 'SET_ALERT':
+      return {
+        ...state,
+        alert: action.payload,
       };
     default:
       return state;

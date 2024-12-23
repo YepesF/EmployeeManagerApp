@@ -46,9 +46,16 @@ function NewEmployee() {
         password: '',
         role: '',
       });
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'success', message: 'Empleado creado.' },
+      });
       document.getElementById('new_employee').close();
     } catch (error) {
-      console.error(error);
+      dispatch({
+        type: 'SET_ALERT',
+        payload: { status: 'error', message: error.message },
+      });
     }
   };
 
