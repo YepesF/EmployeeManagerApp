@@ -17,7 +17,12 @@ app.use(express.static("public"));
 app.use(bodyParser.json());
 app.use(router);
 
-const port = 3001;
-server.listen(port, () => {
-  console.log(`Listening on port ${port}`);
-});
+const port = process.env.PORT || 3001;
+
+if (process.env.NODE_ENV !== "test") {
+  server.listen(port, () => {
+    console.log(`Listening on port ${port}`);
+  });
+}
+
+export { app, server };

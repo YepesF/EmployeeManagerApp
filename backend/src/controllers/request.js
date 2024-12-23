@@ -28,6 +28,7 @@ export const createRequest = async (req, res) => {
     });
 
     res.status(201).json({
+      id: newRequest.id,
       code: newRequest.code,
       description: newRequest.description,
       summary: newRequest.summary,

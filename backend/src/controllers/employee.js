@@ -36,6 +36,7 @@ export const createEmployee = async (req, res) => {
     });
 
     res.status(201).json({
+      id: newEmployee.id,
       name: newEmployee.name,
       email: newUser.email,
       hireDate: newEmployee.hire_date,

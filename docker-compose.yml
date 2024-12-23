@@ -27,6 +27,9 @@ services:
     environment:
       DATABASE_URL: postgres://postgres:password@database:5432/postgres
       JWT_SECRET: mysecretkey
+      PORT: 3001
+      TEST_PORT: 3002
+      NODE_ENV: test
     ports:
       - "3001:3001"
     depends_on:
