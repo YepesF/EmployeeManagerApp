@@ -6,6 +6,7 @@ import { useAuth } from './context/AuthContext';
 const Login = React.lazy(() => import('./components/Login'));
 const Register = React.lazy(() => import('./components/Register'));
 const Dashboard = React.lazy(() => import('./components/Dashboard'));
+const Employees = React.lazy(() => import('./components/Employees'));
 const NotFound = React.lazy(() => import('./components/NotFound'));
 
 function App() {
@@ -34,6 +35,12 @@ function App() {
             path="/dashboard"
             element={
               state.isAuthenticated ? <Dashboard /> : <Navigate to="/" />
+            }
+          />
+          <Route
+            path="/dashboard/employees"
+            element={
+              state.isAuthenticated ? <Employees /> : <Navigate to="/" />
             }
           />
           <Route path="*" element={<NotFound />} />

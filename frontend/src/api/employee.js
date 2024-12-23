@@ -8,7 +8,7 @@ export async function getEmployees(
   token,
   page = 1,
   sortBy = 'id',
-  order = 'asc'
+  order = 'desc'
 ) {
   headers.Authorization = `Bearer ${token}`;
   return makeRequest(
@@ -16,4 +16,38 @@ export async function getEmployees(
     'GET',
     headers
   );
+}
+
+export async function fetchEmployee(
+  token,
+  hireDate,
+  name,
+  salary,
+  email,
+  password,
+  role
+) {
+  headers.Authorization = `Bearer ${token}`;
+  const body = { hireDate, name, salary, email, password, role };
+  return makeRequest('/employees', 'POST', headers, body);
+}
+
+export async function updateEmployee(
+  token,
+  id,
+  hireDate,
+  name,
+  salary,
+  email,
+  password,
+  role
+) {
+  headers.Authorization = `Bearer ${token}`;
+  const body = { hireDate, name, salary, email, password, role };
+  return makeRequest(`/employees/${id}`, 'PUT', headers, body);
+}
+
+export async function deleteEmployee(token, id) {
+  headers.Authorization = `Bearer ${token}`;
+  return makeRequest(`/employees/${id}`, 'DELETE', headers);
 }

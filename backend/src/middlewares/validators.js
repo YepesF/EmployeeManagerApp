@@ -65,7 +65,7 @@ export const validateCreateEmployee = [
   body("role")
     .trim()
     .notEmpty()
-    .withMessage("El correo electrónico es obligatorio.")
+    .withMessage("El rol es obligatorio.")
     .isString()
     .withMessage("Rol debe ser de tipo texto.")
     .isIn(["admin", "employee"])

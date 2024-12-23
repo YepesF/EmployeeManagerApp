@@ -1,8 +1,10 @@
 import express from "express";
 import {
   createEmployee,
+  deleteEmployee,
   getEmployee,
   getEmployees,
+  updateEmployee,
 } from "../controllers/employee.js";
 import {
   createRequest,
@@ -51,6 +53,21 @@ router.get(
   verifyRole(["admin"]),
   validateEmployeeId,
   getEmployee
+);
+router.put(
+  "/employees/:id",
+  verifyToken,
+  verifyRole(["admin"]),
+  validateEmployeeId,
+  validateCreateEmployee,
+  updateEmployee
+);
+router.delete(
+  "/employees/:id",
+  verifyToken,
+  verifyRole(["admin"]),
+  validateEmployeeId,
+  deleteEmployee
 );
 
 // Requests routes

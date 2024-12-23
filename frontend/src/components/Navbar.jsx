@@ -32,7 +32,7 @@ function Navbar() {
             </li>
             {state?.user?.role === 'admin' && (
               <li>
-                <Link to="/dashboard/empyoee">Empleados</Link>
+                <Link to="/dashboard/employees">Empleados</Link>
               </li>
             )}
           </ul>
@@ -48,7 +48,7 @@ function Navbar() {
           </li>
           {state?.user?.role === 'admin' && (
             <li>
-              <Link to="/dashboard/empyoee" className="link-hover link">
+              <Link to="/dashboard/employees" className="link-hover link">
                 Empleados
               </Link>
             </li>
