@@ -40,8 +40,18 @@ cd EmployeeManagerApp
    ```
 
 2. La aplicación estará disponible en:
+
    - Backend: `http://localhost:3001`
    - Frontend: `http://localhost:3000`
+   - Usearios de prueba:
+
+     ```
+     Administrador:
+        Usuario: admin@example.com    Contraseña: Pass1234!
+
+     Empleado:
+        Usuario: jdoe@example.com    Contraseña: Pass1234!
+     ```
 
 ---
 
