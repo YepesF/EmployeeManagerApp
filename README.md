@@ -43,7 +43,7 @@ cd EmployeeManagerApp
 
    - Backend: `http://localhost:3001`
    - Frontend: `http://localhost:3000`
-   - Usearios de prueba:
+   - Usuarios de prueba:
 
      ```
      Administrador:
